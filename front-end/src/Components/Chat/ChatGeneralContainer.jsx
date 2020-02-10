@@ -9,10 +9,10 @@ const ChatGeneralContainerSection = styled.section`
   //border: 1px solid green;
 `
 
-const ChatGeneralContainer = () => {
+const ChatGeneralContainer = props => {
     return(
         <ChatGeneralContainerSection>
-            <ChatMessageContainer />
+            <ChatMessageContainer user={ props.user } />
             <ChatInputContainer />
         </ChatGeneralContainerSection>
     )
