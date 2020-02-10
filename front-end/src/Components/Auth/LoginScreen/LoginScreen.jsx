@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import FacebookLogin from 'react-facebook-login';
-import GoogleLogin from 'react-google-login';
+// import GoogleLogin from 'react-google-login';
 
 
 const LoginScreen = props => {
@@ -33,8 +33,8 @@ const LoginScreen = props => {
     }
 
     // Google
-    const responseGoogleSuccess = () => console.log('google SUCCESS')
-    const responseGoogleFailure = () => console.log('google FAIL')
+    // const responseGoogleSuccess = () => console.log('google SUCCESS')
+    // const responseGoogleFailure = () => console.log('google FAIL')
 
     return(
         <section className='loginSocial'>
