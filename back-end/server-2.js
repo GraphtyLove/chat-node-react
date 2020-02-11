@@ -6,34 +6,41 @@ const app = express()
 const http = require('http').Server(app)
 // require the socket.io module
 const io = require('socket.io')
-
+// Set-up socket
+const socket = io(http);
+// Store the port
 const port = 5000;
 
-const socket = io(http);
 
 // * ----- Socket.io ----- *
-// CONNECTION
+// * --- CONNECTION --- *
 socket.on('connection', socket => {
     console.log('user connected')
     socket.on("disconnect", () => {
         console.log('Disconnected')
     })
+    // * --- MESSAGES --- *
+    socket.on('SendNewMessage', messageData => {
+        console.log('message data: ', messageData)
+        // Send message to MongoDB
+        socket.broadcast.emit('newMessageReceived', messageData)
+    })
 })
 
-// MESSAGES
-socket.on("chat message", msg => {
-    console.log("message: "  +  msg);
-    //broadcast message to everyone in port:5000 except yourself.
-    socket.broadcast.emit("received", { message: msg })
-})
 
-
-
-
-//wire up the server to listen to our port 500
-http.listen(port, ()=>{
+// * ------ LISTEN ----- *
+http.listen(port, () => {
     console.log('connected to port: ' + port)
 })
+
+
+
+// * --- MESSAGES EXEMPLE --- *
+// socket.on("chat message", msg => {
+//     console.log("message: "  +  msg);
+//     // broadcast message to everyone in port:5000 except yourself.
+//     socket.broadcast.emit("received", { message: msg })
+// })
 
 
 // !!! Simple exemple with timestamp !!!
