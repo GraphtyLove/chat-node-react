@@ -3,13 +3,15 @@ import { subscribeToTimer } from '../Api/Api'
 
 const TimeStamp = () => {
     // States
-    const [timeStamp, setTimeStamp] = useState('No time stamp yet');
+    const [timeStamp, setTimeStamp] = useState('No time stamp yet')
+    /// const [lastMessage, setLastMessage] = useState(false)
 
     // Functions
-    subscribeToTimer((err, timeStamp) => setTimeStamp(timeStamp));
+    subscribeToTimer((err, timeStamp) => setTimeStamp(timeStamp))
 
+    // For messages try something like this: ?
+    // sendNewMessage( (err, message) => setLastMessage(message))
 
-    // Return
     return (
         <div className='timeStamp'>
             <p>
