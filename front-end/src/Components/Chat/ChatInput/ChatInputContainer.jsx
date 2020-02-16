@@ -41,6 +41,18 @@ const ChatInputContainer = props => {
   // States
   const [messageToSend, setMessageToSend] = useState({})
 
+
+  const clickOnSend = event => {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+      // Cancel the default action, if needed
+      event.preventDefault()
+      // Trigger the button element with a click
+      document.getElementById("submitButton").click()
+    }
+  }
+
+
   // Handle
   const handleInputChange = () => {
     const textInput = document.getElementById('inputText').value
@@ -66,8 +78,8 @@ const ChatInputContainer = props => {
 
   return (
     <InputContainer>
-      <InputText id='inputText' type="text" onChange={handleInputChange} placeholder='Type your message here...' />
-      <SubmitButton onClick={handleSendMessage}>
+      <InputText id='inputText' onKeyDown={clickOnSend} type="text" onChange={handleInputChange} placeholder='Type your message here...' />
+      <SubmitButton id='submitButton' onClick={handleSendMessage}>
         <span><b>Send !</b></span>
       </SubmitButton>
     </InputContainer>
