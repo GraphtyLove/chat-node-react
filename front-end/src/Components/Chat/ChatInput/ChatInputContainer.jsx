@@ -9,7 +9,6 @@ const socket = openSocket('http://localhost:5000')
 const InputContainer = styled.section`
   width: 50%;
   height: 40px;
-  //border: 1px solid red;
   margin-top: 10px;
   margin-left: auto;
   display: flex;

@@ -4,6 +4,14 @@ import FacebookLogin from 'react-facebook-login';
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:5000')
 
+// Style
+const loginContainer = {
+    height: '98vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+}
+
 
 const LoginScreen = props => {
 
@@ -40,10 +48,11 @@ const LoginScreen = props => {
     // const responseGoogleFailure = () => console.log('google FAIL')
 
     return (
-        <section className='loginSocial'>
+        <section style={loginContainer}>
             <FacebookLogin
                 appId="829888337524160"
                 fields="name,email,picture"
+                icon="fa-facebook"
                 callback={responseFacebook}
             />
             {/*<GoogleLogin*/}
