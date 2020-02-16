@@ -1,6 +1,8 @@
 import React from 'react'
 import FacebookLogin from 'react-facebook-login';
 // import GoogleLogin from 'react-google-login';
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:5000')
 
 
 const LoginScreen = props => {
@@ -10,24 +12,25 @@ const LoginScreen = props => {
     const setUser = props.setUser
 
     // Facebook
-    const responseFacebook = (response) => {
-        console.log('facebook:: ', response)
+    const responseFacebook = response => {
         // Function setAuth from auth state (app.js)
-        if(response.name && response.email && response.id && response.userID){
+        if (response && response.name && response.email && response.userID) {
             console.log(`User ${response.name} connected with facebook`)
 
             const user = {
                 name: response.name,
                 email: response.email,
-                userID: response.userID,
-                picture: response.picture.url
+                facebookId: response.userID,
+                pictureUrl: response.picture.data.url
             }
 
             setUser(user)
             setIsUserConnected(true)
 
+            socket.emit('userLogin', user)
+
         }
-        else{
+        else {
             alert('Facebook authentication failed.')
         }
     }
@@ -36,13 +39,13 @@ const LoginScreen = props => {
     // const responseGoogleSuccess = () => console.log('google SUCCESS')
     // const responseGoogleFailure = () => console.log('google FAIL')
 
-    return(
+    return (
         <section className='loginSocial'>
             <FacebookLogin
                 appId="829888337524160"
                 fields="name,email,picture"
                 callback={responseFacebook}
-              />
+            />
             {/*<GoogleLogin*/}
             {/*    clientId="" //CLIENTID NOT CREATED YET*/}
             {/*    buttonText="LOGIN WITH GOOGLE"*/}

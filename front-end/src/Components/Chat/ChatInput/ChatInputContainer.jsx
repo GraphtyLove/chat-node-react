@@ -33,7 +33,7 @@ const SubmitButton = styled.button`
   border: none;
   color: white;
   -webkit-border-radius: 0 10px 10px 0;-moz-border-radius: 0 10px 10px 0;border-radius: 0 10px 10px 0;
-    -moz-box-shadow:    3px 3px 8px 3px #ccc;
+  -moz-box-shadow:    3px 3px 8px 3px #ccc;
   -webkit-box-shadow: 3px 3px 8px 3px #ccc;
   box-shadow:         3px 3px 8px 3px #ccc;
 `
@@ -42,37 +42,32 @@ const ChatInputContainer = props => {
   // States
   const [messageToSend, setMessageToSend] = useState({})
 
-  // Socket
-  const subscribeToMessage = (messageToSend, callback) => {
-    socket.on('newMessageReceived', message => callback(null, message))
-    socket.emit('subscribeToMessage', messageToSend)
-  }
-
   // Handle
   const handleInputChange = () => {
-    const textInput = document.getElementById('inpuText').value
+    const textInput = document.getElementById('inputText').value
     const message = {
-      userId: props.user.name,
+      facebookId: props.user.facebookId,
       messageBody: textInput,
       time: new Date()
     }
     setMessageToSend(message)
   }
+
   const handleSendMessage = event => {
     event.preventDefault()
     console.log('message: ', messageToSend)
-    socket.emit('newMessage', messageToSend)
+    // Check if the user is logged
+    // TODO: to improve, easy to hack atm...
+    if (props.user && props.user.facebookId && props.user.name) {
+      socket.emit('newMessage', messageToSend)
+    }
     // Reset the value of the input when the message is sent
-    document.getElementById('inpuText').value = ''
+    document.getElementById('inputText').value = ''
   }
-
-
-
-
 
   return (
     <InputContainer>
-      <InputText id='inpuText' type="text" onChange={handleInputChange} placeholder='Type your message here...' />
+      <InputText id='inputText' type="text" onChange={handleInputChange} placeholder='Type your message here...' />
       <SubmitButton onClick={handleSendMessage}>
         <span><b>Send !</b></span>
       </SubmitButton>

@@ -10,9 +10,10 @@ const ChatBox = styled.section`
     width: 90vw;
     height: 70vh;
     background: white;
-    //border: 1px solid red;
     padding: 20px;
-    -webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
     -moz-box-shadow:    3px 3px 8px 3px #ccc;
     -webkit-box-shadow: 3px 3px 8px 3px #ccc;
     box-shadow:         3px 3px 8px 3px #ccc;
@@ -24,15 +25,17 @@ const ChatMessageContainer = props => {
 
     const [messages, setMessages] = useState([])
 
-
+    // Store new messages in messages
     socket.on('newMessageReceived', messageData => {
-        messageData.isSentByUser = messageData.userName == props.user.name
-        setMessages([...messages, messageData])
+        if (messageData && messageData.user) {
+            messageData.isSentByUser = messageData.user.name === props.user.name
+            setMessages([...messages, messageData])
+        }
     })
 
     return (
         <ChatBox>
-            {messages && messages.map(message => <MessageUnique isSentByUser={message.isSentByUser} message={message} />)}
+            {messages && messages.map((message, i) => <MessageUnique key={i} isSentByUser={message.isSentByUser} message={message} />)}
         </ChatBox>
     )
 }

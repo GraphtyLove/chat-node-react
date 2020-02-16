@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 // Style
 const messageContainerUser = {
@@ -23,7 +23,7 @@ const messageBoxSomeoneElse = {
     justifyContent: 'flex-start',
     alignItems: 'center'
 }
-const messageBody = {
+const messageBodyBox = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -34,14 +34,14 @@ const messageBody = {
 }
 const messageBodyUser = {
     background: 'cornflowerblue',
-    webkitBorderRadius: '10px 10px 3px 10px',
-    mozBorderRadius: '10px 10px 3px 10px',
+    WebkitBorderRadius: '10px 10px 3px 10px',
+    MozBorderRadius: '10px 10px 3px 10px',
     borderRadius: '10px 10px 3px 10px',
 }
 const messageBodySomeoneElse = {
     background: 'darkgrey',
-    webkitBorderRadius: '3px 10px 10px 10px',
-    mozBorderRadius: '3px 10px 10px 10px',
+    WebkitBorderRadius: '3px 10px 10px 10px',
+    MozBorderRadius: '3px 10px 10px 10px',
     borderRadius: '3px 10px 10px 10px',
 }
 const timeSpan = {
@@ -54,8 +54,8 @@ const paragraph = {
     margin: '5px'
 }
 const UserImage = {
-    webkitBorderRadius: '50%',
-    mozBorderRadius: '50%',
+    WebkitBorderRadius: '50%',
+    MozBorderRadius: '50%',
     borderRadius: '50%',
     height: '40px',
     width: '40px'
@@ -65,19 +65,20 @@ const MessageUnique = props => {
     const dateRaw = new Date(props.message.time)
     const formatedDate = `${dateRaw.getDate()}/${(dateRaw.getMonth() + 1)}/${dateRaw.getFullYear()}`
     const formatedTime = dateRaw.getHours() + ':' + dateRaw.getMinutes()
+
     return (
         <div style={props.isSentByUser ? messageContainerUser : messageContainerSomeoneElse}>
             <div style={props.isSentByUser ? messageBoxUser : messageBoxSomeoneElse}>
                 {props.isSentByUser
-                    ? <div style={{ ...messageBody, ...messageBodyUser }}><p style={paragraph}>{props.message.body}</p></div>
-                    : <img src={props.message.userPicture} alt={`Profile picture of ${props.message.userName}`} style={UserImage} />
+                    ? <div style={{ ...messageBodyBox, ...messageBodyUser }}><p style={paragraph}> {props.message.messageBody} </p></div>
+                    : <img src={props.message.user.pictureUrl} alt={props.message.user.name} style={UserImage} />
                 }
                 {props.isSentByUser
-                    ? <img src={props.message.userPicture} alt={`Profile picture of ${props.message.userName}`} style={UserImage} />
-                    : <div style={{ ...messageBody, ...messageBodySomeoneElse }}><p style={paragraph}>{props.message.body}</p></div>
+                    ? <img src={props.message.user.pictureUrl} alt={props.message.user.name} style={UserImage} />
+                    : <div style={{ ...messageBodyBox, ...messageBodySomeoneElse }}><p style={paragraph}>{props.message.messageBody}</p></div>
                 }
             </div>
-            <time style={timeSpan}>Sent by {props.message.userName} the {formatedDate} at {formatedTime}</time>
+            <time style={timeSpan}>Sent by {props.message.user.name} the {formatedDate} at {formatedTime}</time>
         </div>
     )
 }
