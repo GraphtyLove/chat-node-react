@@ -3,34 +3,34 @@ const express = require('express')
 //create a new express application
 const app = express()
 //require the http module
-const http = require('http').Server(app)
+var server = app.listen(5000)
 // require the socket.io module
-const io = require('socket.io')
-// Set-up socket
-const socket = io(http);
-// Store the port
-const port = 5000;
+const io = require('socket.io').listen(server);
 
+messages = []
 
 // * ----- Socket.io ----- *
 // * --- CONNECTION --- *
-socket.on('connection', socket => {
+io.on('connection', socket => {
     console.log('user connected')
+    // Send all the messages stored.
+    messages && messages.map(message => socket.emit('newMessageReceived', message))
+
     socket.on("disconnect", () => {
         console.log('Disconnected')
     })
     // * --- MESSAGES --- *
-    socket.on('SendNewMessage', messageData => {
+    socket.on('newMessage', messageData => {
         console.log('message data: ', messageData)
+        messages.push(messageData)
         // Send message to MongoDB
         socket.broadcast.emit('newMessageReceived', messageData)
     })
 })
 
-
-// * ------ LISTEN ----- *
-http.listen(port, () => {
-    console.log('connected to port: ' + port)
+// * ----- HOME route ----- *
+app.get('/', (req, res) => {
+    res.send('Hi!');
 })
 
 
@@ -38,7 +38,7 @@ http.listen(port, () => {
 // * --- MESSAGES EXEMPLE --- *
 // socket.on("chat message", msg => {
 //     console.log("message: "  +  msg);
-//     // broadcast message to everyone in port:5000 except yourself.
+//      broadcast message to everyone in port:5000 except yourself.
 //     socket.broadcast.emit("received", { message: msg })
 // })
 

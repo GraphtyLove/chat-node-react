@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { subscribeToTimer } from '../Api/Api'
+import { subscribeToTimer, subscribeToMessage } from '../Api/Api'
 
 const TimeStamp = () => {
     // States
@@ -8,9 +8,6 @@ const TimeStamp = () => {
 
     // Functions
     subscribeToTimer((err, timeStamp) => setTimeStamp(timeStamp))
-
-    // For messages try something like this: ?
-    // sendNewMessage( (err, message) => setLastMessage(message))
 
     return (
         <div className='timeStamp'>

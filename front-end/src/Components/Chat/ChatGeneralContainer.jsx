@@ -13,7 +13,7 @@ const ChatGeneralContainer = props => {
     return(
         <ChatGeneralContainerSection>
             <ChatMessageContainer user={ props.user } />
-            <ChatInputContainer />
+            <ChatInputContainer user={ props.user } />
         </ChatGeneralContainerSection>
     )
 }

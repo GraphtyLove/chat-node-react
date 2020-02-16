@@ -35,11 +35,11 @@ const App = () => {
 	return (
 		<Fragment className='App'>
 			<Header>
-				<TimeStamp />
-				{ isUserConnected ? <p>Welcome {user.name}!</p> : <LoginScreen setIsUserConnected={ setIsUserConnected } setUser={ setUser }/> }
+				{/* <TimeStamp /> */}
+				{isUserConnected ? <p>Welcome {user.name}!</p> : <LoginScreen setIsUserConnected={setIsUserConnected} setUser={setUser} />}
 			</Header>
 			<Main>
-				{ isUserConnected && <ChatGeneralContainer user={ user } /> }
+				{isUserConnected && <ChatGeneralContainer user={user} />}
 			</Main>
 		</Fragment>
 	)

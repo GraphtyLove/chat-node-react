@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 // Components
 import MessageUnique from './MessageUnique'
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:5000')
 
 //Style
 const ChatBox = styled.section`
@@ -19,39 +21,18 @@ const ChatBox = styled.section`
 
 
 const ChatMessageContainer = props => {
-    // !!! DEBUG ZONE to delete !!!
-    const senderFake = {
-        name: 'Vincent',
-        picture: 'https://scontent.fcrl2-1.fna.fbcdn.net/v/t1.0-9/66497304_2472647389445246_5845131481160089600_o.jpg?_nc_cat=103&_nc_ohc=LYPm7zWghj8AX8jIHRX&_nc_ht=scontent.fcrl2-1.fna&oh=5f2ca7511e2022c96c118dcce43f09d2&oe=5EC77397'
-    }
-    const messageFakeMax = {
-        body: 'Hey Vinc, ça va ou quoi?',
-        date: '10/02/2020',
-        time: '12h15'
-    }
-        const messageFakeVincent = {
-        body: 'Yo max!',
-        date: '10/02/2020',
-        time: '12h17'
-    }
 
-    return(
+    const [messages, setMessages] = useState([])
+
+
+    socket.on('newMessageReceived', messageData => {
+        messageData.isSentByUser = messageData.userName == props.user.name
+        setMessages([...messages, messageData])
+    })
+
+    return (
         <ChatBox>
-            <MessageUnique isSentByUser={ true } user={ props.user } message={ messageFakeMax }/>
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
-            <MessageUnique isSentByUser={ false } user={ senderFake } message={ messageFakeVincent } />
+            {messages && messages.map(message => <MessageUnique isSentByUser={message.isSentByUser} message={message} />)}
         </ChatBox>
     )
 }

@@ -62,20 +62,22 @@ const UserImage = {
 }
 
 const MessageUnique = props => {
-
-    return(
-        <div style={ props.isSentByUser ? messageContainerUser : messageContainerSomeoneElse }>
-            <div style={ props.isSentByUser ? messageBoxUser : messageBoxSomeoneElse }>
-                { props.isSentByUser
-                    ? <div style={{ ...messageBody, ...messageBodyUser }}><p style={ paragraph }>{ props.message.body }</p></div>
-                    : <img src={ props.user.picture } alt={ `Profile picture of ${props.user.name}` } style={ UserImage } />
+    const dateRaw = new Date(props.message.time)
+    const formatedDate = `${dateRaw.getDate()}/${(dateRaw.getMonth() + 1)}/${dateRaw.getFullYear()}`
+    const formatedTime = dateRaw.getHours() + ':' + dateRaw.getMinutes()
+    return (
+        <div style={props.isSentByUser ? messageContainerUser : messageContainerSomeoneElse}>
+            <div style={props.isSentByUser ? messageBoxUser : messageBoxSomeoneElse}>
+                {props.isSentByUser
+                    ? <div style={{ ...messageBody, ...messageBodyUser }}><p style={paragraph}>{props.message.body}</p></div>
+                    : <img src={props.message.userPicture} alt={`Profile picture of ${props.message.userName}`} style={UserImage} />
                 }
-                { props.isSentByUser
-                    ? <img src={ props.user.picture } alt={`Profile picture of ${props.user.name}`} style={ UserImage } />
-                    : <div style={{ ...messageBody, ...messageBodySomeoneElse }}><p style={ paragraph }>{ props.message.body }</p></div>
+                {props.isSentByUser
+                    ? <img src={props.message.userPicture} alt={`Profile picture of ${props.message.userName}`} style={UserImage} />
+                    : <div style={{ ...messageBody, ...messageBodySomeoneElse }}><p style={paragraph}>{props.message.body}</p></div>
                 }
             </div>
-            <time style={ timeSpan }>Message sent the {props.message.date} at {props.message.time}</time>
+            <time style={timeSpan}>Sent by {props.message.userName} the {formatedDate} at {formatedTime}</time>
         </div>
     )
 }
