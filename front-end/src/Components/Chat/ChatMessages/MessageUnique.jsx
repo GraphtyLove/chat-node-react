@@ -16,12 +16,14 @@ const messageContainerSomeoneElse = {
 const messageBoxUser = {
     display: 'flex',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'row'
 }
 const messageBoxSomeoneElse = {
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'row-reverse'
 }
 const messageBodyBox = {
     display: 'flex',
@@ -37,12 +39,6 @@ const messageBodyUser = {
     WebkitBorderRadius: '10px 10px 3px 10px',
     MozBorderRadius: '10px 10px 3px 10px',
     borderRadius: '10px 10px 3px 10px',
-}
-const messageBodySomeoneElse = {
-    background: 'darkgrey',
-    WebkitBorderRadius: '3px 10px 10px 10px',
-    MozBorderRadius: '3px 10px 10px 10px',
-    borderRadius: '3px 10px 10px 10px',
 }
 const timeSpan = {
     marginTop: '5px',
@@ -69,14 +65,8 @@ const MessageUnique = props => {
     return (
         <div style={props.isSentByUser ? messageContainerUser : messageContainerSomeoneElse}>
             <div style={props.isSentByUser ? messageBoxUser : messageBoxSomeoneElse}>
-                {props.isSentByUser
-                    ? <div style={{ ...messageBodyBox, ...messageBodyUser }}><p style={paragraph}> {props.message.messageBody} </p></div>
-                    : <img src={props.message.user.pictureUrl} alt={props.message.user.name} style={UserImage} />
-                }
-                {props.isSentByUser
-                    ? <img src={props.message.user.pictureUrl} alt={props.message.user.name} style={UserImage} />
-                    : <div style={{ ...messageBodyBox, ...messageBodySomeoneElse }}><p style={paragraph}>{props.message.messageBody}</p></div>
-                }
+                <div style={{ ...messageBodyBox, ...messageBodyUser }}><p style={paragraph}> {props.message.messageBody} </p></div>
+                <img src={props.message.user.pictureUrl} alt={props.message.user.name} style={UserImage} />
             </div>
             <time style={timeSpan}>Sent by {props.message.user.name} the {formatedDate} at {formatedTime}</time>
         </div>

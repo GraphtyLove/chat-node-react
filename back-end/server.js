@@ -12,11 +12,9 @@ const MongoClient = require('mongodb').MongoClient
 // see doc: https://github.com/motdotla/dotenv
 require('dotenv').config()
 
-
+// Store all the messages
 let messages = []
 
-
-// !!! TO REMOVE AND REPLACE BY ENV VARIABLE !!!
 const dbString = process.env.MONGO_CONNECTION_STRING
 
 MongoClient.connect(dbString, (err, db) => {
@@ -70,7 +68,6 @@ const createNewUser = user => {
     })
 }
 
-
 const sendMessageToDatabase = async message => {
     delete message.facebookId
     const client = await MongoClient.connect(dbString).catch(err => console.log(err))
@@ -90,12 +87,13 @@ const sendMessageToDatabase = async message => {
     }
 }
 
-
 const cleanMessageAndEmit = (message, socket) => {
     if (message && message.user) {
-        delete message.user._id
-        delete message.user.facebookId
-        socket.broadcast.emit('newMessageReceived', message)
+        // Create a deep copy of message so we can still send the entire data to the DB
+        const messageToSend = JSON.parse(JSON.stringify(message))
+        delete messageToSend.user._id
+        delete messageToSend.user.facebookId
+        socket.broadcast.emit('newMessageReceived', messageToSend)
         console.log('message cleaned and emit!')
     }
 }
@@ -138,10 +136,12 @@ io.on('connection', socket => {
             messageFormated = messageData
             messageFormated.user = userDb
             messages.push(messageFormated)
+            // Clean message and send it to front
+            cleanMessageAndEmit(messageFormated, socket)
             // Send message to MongoDB
             sendMessageToDatabase(messageFormated)
-                .then(() => cleanMessageAndEmit(messageFormated, socket))
-            // socket.broadcast.emit('newMessageReceived', messageData)
+                .then(() => console.log('Message sent to DB'))
+
         })
     })
 })

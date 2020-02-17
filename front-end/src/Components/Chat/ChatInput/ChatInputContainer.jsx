@@ -21,20 +21,20 @@ const InputText = styled.input`
   background: white;
   padding: 0 20px;
   -webkit-border-radius: 10px 0 0 10px;-moz-border-radius: 10px 0 0 10px;border-radius: 10px 0 0 10px;
-    -moz-box-shadow:    3px 3px 8px 3px #ccc;
-  -webkit-box-shadow: 3px 3px 8px 3px #ccc;
-  box-shadow:         3px 3px 8px 3px #ccc;
+  -moz-box-shadow:    3px 3px 8px 3px rgba(0%, 0%, 0%, 0.3);
+    -webkit-box-shadow: 3px 3px 8px 3px rgba(0%, 0%, 0%, 0.3);
+    box-shadow:         3px 3px 8px 3px rgba(0%, 0%, 0%, 0.3);
 `
 const SubmitButton = styled.button`
   background: cornflowerblue;
-  height: 105%;
+  height: 100%;
   width: 100px;
   border: none;
   color: white;
   -webkit-border-radius: 0 10px 10px 0;-moz-border-radius: 0 10px 10px 0;border-radius: 0 10px 10px 0;
-  -moz-box-shadow:    3px 3px 8px 3px #ccc;
-  -webkit-box-shadow: 3px 3px 8px 3px #ccc;
-  box-shadow:         3px 3px 8px 3px #ccc;
+  -moz-box-shadow:    3px 3px 8px 3px rgba(0%, 0%, 0%, 0.3);
+    -webkit-box-shadow: 3px 3px 8px 3px rgba(0%, 0%, 0%, 0.3);
+    box-shadow:         3px 3px 8px 3px rgba(0%, 0%, 0%, 0.3);
 `
 
 const ChatInputContainer = props => {

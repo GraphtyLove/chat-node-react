@@ -1,3 +1,9 @@
 body{
-  background: #f0f0f0;
+  background-color: #fa3380;
+  background: -webkit-gradient(radial, center center, 0, center center, 500, from(#433763), to(#292D48));
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 98vh;
 }
